@@ -126,7 +126,7 @@ class ScannerApp:
 
     # --------------------------------------------
 
-    def process_scan(self):
+    def process_scan(self, event=None):
 
         value = self.entry.get().strip()
         self.entry.delete(0, tk.END)
@@ -141,7 +141,7 @@ class ScannerApp:
             logging.warning("Ungültiges Format: %s", value)
             return
 
-        value = int(value)
+        value = int(value[1:])
 
         if value <= 0 or value >= 10000:
             self.status.set(f"Ungültig: {value}")
@@ -173,6 +173,11 @@ class ScannerApp:
 
     # --------------------------------------------
 
+    def update_status(self, message):
+        self.root.after(0, self.status.set, message)
+
+    # --------------------------------------------
+
     def send_to_api(self, number):
 
         try:
@@ -188,12 +193,7 @@ class ScannerApp:
                     number
                 )
 
-                self.root.after(
-                    0,
-                    lambda: self.status.set(
-                        f"OK: {number}"
-                    )
-                )
+                self.update_status(f"OK: {number}")
 
             else:
 
@@ -203,12 +203,7 @@ class ScannerApp:
                     number
                 )
 
-                self.root.after(
-                    0,
-                    lambda: self.status.set(
-                        f"HTTP {response.status_code}"
-                    )
-                )
+                self.update_status(f"HTTP {response.status_code}")
 
         except Exception as ex:
 
@@ -217,12 +212,7 @@ class ScannerApp:
                 number
             )
 
-            self.root.after(
-                0,
-                lambda: self.status.set(
-                    f"Fehler: {ex}"
-                )
-            )
+            self.update_status(f"Fehler: {ex}")
 
         # --------------------------------------------
 
