@@ -1,0 +1,4 @@
+{
+  "api_url": "http://<IP-Address of 'StartnummernScannen'>:8080",
+  "cooldown_seconds": 2
+}
