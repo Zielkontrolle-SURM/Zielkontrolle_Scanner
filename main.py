@@ -13,7 +13,7 @@ from tkinter import ttk
 CONFIG_FILE = "config.json"
 
 DEFAULT_CONFIG = {
-    "api_url": "http://192.168.178.64:8080",
+    "api_url": "http://localhost:8080",
     "cooldown_seconds": 2
 }
 
